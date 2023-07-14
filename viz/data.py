@@ -13,10 +13,30 @@ client_credentials_manager = SpotifyClientCredentials(client_id=os.getenv('CLIEN
 sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
 
 
-album = '1fnJ7k0bllNfL1kVdNVW1A'
-results = sp.album_tracks(album)
-print(len(results))
-input()
+# album = '1fnJ7k0bllNfL1kVdNVW1A'
+# results = sp.album_tracks(album)
+
+# results = sp.search(q='Taylor Swift', type='artist')
+# artist_id = results['artists']['items'][0]['id']
+
+# albums = sp.artist_albums(artist_id, album_type='album')
+
+# red_album = None
+# for album in albums['items']:
+#     if album['name'] == 'Red':
+#         red_album = album
+#         break
+# if red_album:
+#     tracks = sp.album_tracks(red_album['id'])
+    
+#     for track in tracks['items']:
+#         print(track['name'])
+# input()
+
+
+
+
+
 artist = '06HL4z0CvFAxyc27GXpf02'
 results = sp.artist_albums(artist)
 album_ids = [results['items'][x]['id'] for x in range(len(results['items']))]
@@ -25,29 +45,25 @@ song_list = []
 song_params = 0
 for x in album_ids:
     song = sp.album_tracks(x, limit = 50)
-    print(song['items'][0]['name'])
-    input()
+   
     song_params = len(song)
-    print(song_params)
+   
     song_list.append(song)
-print(len(song_list[1]))
-input()
+
+
 with open('tswift.csv', 'w', newline='') as file:
      writer = csv.writer(file)
      keys = list(song_list[0]['items'][0].keys())
      header = [keys[x] for x in range(len(keys))]
+     print(header)
      writer.writerow(header)
+     lines = []
      for x in range (len(song_list)):
-         print(song_list[x]['items'][0])
-         lines=[]
-         for y in range(len(song_list[x])):
-             lineList = []
-             for a in keys:
-                 line = song_list[x]['items'][y][a]
-                 lineList.append(line)
-             lines.append(lineList)
+         pass
+             
+         
     
-         writer.writerows(lines)
+       
          
         
      
