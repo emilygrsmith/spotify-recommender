@@ -13,6 +13,7 @@ client_credentials_manager = SpotifyClientCredentials(client_id=os.getenv('CLIEN
 sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
 
 
+
 artist = '06HL4z0CvFAxyc27GXpf02'
 results = sp.artist_albums(artist)
 album_ids = [results['items'][x]['id'] for x in range(len(results['items']))]
