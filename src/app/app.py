@@ -8,7 +8,9 @@ app = Flask(__name__)
 def find_reccomended():
  
   try:
+    print("ABOUTTOTRY")
     id = request.args.get('id')
+    print(id,"ID")
     playlist = LD.Playlist(id)
     uris = playlist.getRecomend()
   except Exception as e:

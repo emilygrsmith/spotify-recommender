@@ -43,7 +43,7 @@ class Playlist:
                             "Authorization":f"Bearer {self._token}"})
             
             json_response = response.json()
-            
+            #print((json_response))
             for i in json_response['tracks']:
                 print(i['name'])
                 uris.append(i['name'])
@@ -52,15 +52,17 @@ class Playlist:
 
 
     def _acquire_token(self):
+        print("ACQUIRING TOKEN")
         token_cache_dir = os.path.join(ROOT_PATH, "cache")
         token_cache_file = os.path.join(token_cache_dir, "token.p")
         if os.path.exists(token_cache_file):
             current_time = time.time()
-            if current_time - os.path.getmtime(token_cache_file) < 3600:
-                with open(token_cache_file, "rb") as fid:
-                    token = pickle.load(fid)
-                return token
-            else:
+            # if current_time - os.path.getmtime(token_cache_file) < 3600:
+            #     with open(token_cache_file, "rb") as fid:
+            #         token = pickle.load(fid)
+            #         print("t")
+            #     return token
+            if(True):
                 grant_type = 'client_credentials'
                 body_params = {'grant_type' : grant_type}
                 url = 'https://accounts.spotify.com/api/token'
@@ -69,6 +71,7 @@ class Playlist:
                 token = token_raw["access_token"]
                 with open(token_cache_file, "wb") as fid:
                     pickle.dump(token, fid)
+                    print("lol",token)
                 return token
         else:
             grant_type = 'client_credentials'
@@ -79,6 +82,7 @@ class Playlist:
             token = token_raw["access_token"]
             with open(token_cache_file, "wb") as fid:
                 pickle.dump(token, fid)
+                print("TOKEN: ",token)
             return token
 if __name__ == "__main__":
     p = Playlist('3KkQ3MvqPUtnXSZQq08SOv')
