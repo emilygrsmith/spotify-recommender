@@ -4,3 +4,4 @@
 -improve UI
 -loading wheel while model is loading
 - print them as they go so no long wait for longer playlists
+-start without running both flask and npm, combine into one
