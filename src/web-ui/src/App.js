@@ -6,17 +6,17 @@ import './App.css';
 function App() {
 
    // new line start
-  const [profileData, setProfileData] = useState(null)
-
-  function getData() {
-    const myID = '6kEqWqF4dSacolt357S2nE';
+  const [playlist, setPlaylist] = useState(null)
+ 
+  function getData(id) {
+    const myID = id;
     axios({
       method: "GET",
       url:`/data?id=${myID}` ,
     })
     .then((response) => {
       const res =response.data
-      setProfileData(({
+      setPlaylist(({
         new_songs: res
         
        }))
@@ -28,7 +28,35 @@ function App() {
         }
     })}
     //end of new line 
-
+    function MyForm() {
+      function handleSubmit(e) {
+        // Prevent the browser from reloading the page
+        e.preventDefault();
+    
+        // Read the form data
+        const form = e.target;
+        console.log(form)
+        const formData = new FormData(form);
+        const playlistID = formData.get("playlistID");
+        console.log(playlistID)
+        // You can pass formData as a fetch body directly:
+        getData(playlistID)
+    
+      }
+    
+      return (
+        <form method="post" onSubmit={handleSubmit}>
+          <label>
+            PlaylistID: <input name="playlistID"  />
+          </label>
+          <hr />
+  
+        
+          <button type="submit">Submit form</button>
+        </form>
+      );
+    }
+    
   return (
     <div className="App">
       <header className="App-header">
@@ -39,10 +67,10 @@ function App() {
        
 
         {/* new line start*/}
-        <p>To get your new songs </p><button onClick={getData}>Click me</button>
-        {profileData && <div>
+        <p>To get your new songs {MyForm()}</p>
+        {playlist && <div>
           <ul>
-        {profileData.new_songs.map((song, index) => (
+        {playlist.new_songs.map((song, index) => (
           <li key={index}>{song}</li>
         ))}
       </ul>
