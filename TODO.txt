@@ -1,0 +1,6 @@
+-No duplicate songs
+-Actually create playlist
+-print artists
+-improve UI
+-loading wheel while model is loading
+- print them as they go so no long wait for longer playlists
