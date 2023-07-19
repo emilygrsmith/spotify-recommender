@@ -7,7 +7,7 @@ function App() {
 
    // new line start
   const [playlist, setPlaylist] = useState(null)
- 
+  const [play, addP] = useState(" ");
   function getData(id) {
     const myID = id;
     axios({
@@ -47,7 +47,7 @@ function App() {
       return (
         <form method="post" onSubmit={handleSubmit}>
           <label>
-            PlaylistID: <input name="playlistID"  />
+            Playlist ID: <input name="playlistID"  />
           </label>
           <hr />
   
@@ -56,7 +56,48 @@ function App() {
         </form>
       );
     }
+    function addPlaylist()
+    {
+      console.log("HERE");
+      function handleSubmit(e)
+      {
+        e.preventDefault();
     
+        // Read the form data
+        const form = e.target;
+        const formData = new FormData(form);
+        // console.log(formData)
+        const add = formData.get('value');
+        console.log(add)
+        // You can pass formData as a fetch body directly:
+        if(add =="yes")
+        {
+          submitPlaylist(add)
+        }
+        
+        
+    
+      }
+      return (
+        <form>
+        <select value={play} onSubmit={handleSubmit}>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+          
+        </select>
+        <button type="submit">Submit</button>
+      </form>
+      )
+    }
+    function submitPlaylist()
+    {
+
+      axios({
+        method: "GET",
+        url:`/build` ,
+      })
+      
+    }
   return (
     <div className="App">
       <header className="App-header">
@@ -69,16 +110,22 @@ function App() {
         {/* new line start*/}
         <p>To get your new songs {MyForm()}</p>
         {playlist && <div>
-          <ul>
+          <ul  style={{ listStyleType: 'none' }}>
+  {/* List items */}
+
         {playlist.new_songs.map((song, index) => (
           <li key={index}>{song}</li>
         ))}
       </ul>
           
             </div>
+           
         }
+       
          {/* end of new line */}
+        
       </header>
+      {/* <div className='body'> <p> {addPlaylist()}</p></div> */}
     </div>
   );
 }

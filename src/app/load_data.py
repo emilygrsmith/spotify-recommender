@@ -67,13 +67,13 @@ class Playlist:
                 self._uri.append(new_request)
                 uris.append(name)
         #print(len(uris))
-        self.buildPlaylist(uris)           
+        self.buildPlaylist()           
         return uris
     def getUserID(self):
         user_info = self._sp.current_user()
         #print(user_info)
         return user_info
-    def buildPlaylist(self,uris):
+    def buildPlaylist(self):
         userInfo = self.getUserID()
         name = self._name + ": AI Version"
         newPlaylist = self._sp.user_playlist_create(userInfo['id'], name, public=True, collaborative=False, description='generaetd using AI model')

@@ -3,7 +3,7 @@ import load_data as LD
 import requests
 app = Flask(__name__)
 #app.register_blueprint()
-
+playlist = 1
 @app.route('/data', methods = ['GET'])
 def find_reccomended():
  
@@ -17,3 +17,7 @@ def find_reccomended():
       print(e)
   
   return uris
+
+@app.route('/build', methods =['GET','POST'])
+def build_playlist():
+  print(playlist)
