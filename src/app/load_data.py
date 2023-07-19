@@ -60,8 +60,11 @@ class Playlist:
                 new_request = i
                 print(i['name'])
                 while(name in uris):
+                    print("REMOVING")
                     new_request = self._sendRequest(query)
-                    name = new_request['tracks']['name']
+                    #print(new_request.keys(),"IS NEW")
+                    name = new_request['tracks'][0]['name']
+                    new_request = new_request['tracks'][0]
                 
                     
                 self._uri.append(new_request)
