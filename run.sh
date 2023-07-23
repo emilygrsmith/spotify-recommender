@@ -1,6 +1,6 @@
 #!/bin/bash
-
-source ../spotify-env/bin/activate
+source .env
+source $PATH_TO_ENV
 
 
 flask_cmd="cd src/app/ && flask run"
