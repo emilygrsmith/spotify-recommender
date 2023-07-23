@@ -6,8 +6,8 @@ How to use it yourself:
 
 Clone the repo and create a .env file that has this format:
 
-CLIENT_SECRET_KEY=________________
-CLIENT_PUBLIC_KEY=__________________
+CLIENT_SECRET_KEY=XXXXXXXXX
+CLIENT_PUBLIC_KEY=XXXXXXXXXXXX
 PYTHONUNBUFFERED=0
 PATH_TO_ENV=../pathto/virtualenvironment
 
