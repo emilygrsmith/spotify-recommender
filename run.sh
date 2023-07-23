@@ -1,5 +1,10 @@
 #!/bin/bash
 
-cd /source/web-ui 
+source ../spotify-env/bin/activate
 
-npm start
+
+flask_cmd="cd src/app/ && flask run"
+react_cmd="cd src/web-ui/ && npm start"
+
+
+concurrently "$flask_cmd" "$react_cmd"
