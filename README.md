@@ -21,7 +21,7 @@ Finally, run npm install in the src/web-app directory to complete the build of t
 In the main directory, run ./run.sh to launch the app!
 
 
-The playlist ID of any of your playlists can be found by copying the shareable link and copying the characters after the /playlist but  before the '?'
+The playlist link of any of your playlists can be found by copying the shareable link of any playlist on Spotify!
 
 The playlist ID below would be 3wn372MvCPfmpOqEwMtBXQ for example
 
