@@ -103,7 +103,7 @@ function App() {
       <header className="App-header">
         
         <p>
-         Enter Playlist ID to get Reccomended songs!
+         Enter Playlist Link to get Reccomended songs!
         </p>
        
 

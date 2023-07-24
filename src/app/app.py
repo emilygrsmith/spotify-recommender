@@ -1,17 +1,19 @@
 from flask import Flask, request
 import load_data as LD
 import requests
+
 app = Flask(__name__)
-#app.register_blueprint()
+
 playlist = 1
 @app.route('/data', methods = ['GET'])
 def find_reccomended():
  
   try:
-    print("ABOUTTOTRY")
     id = request.args.get('id')
-    print(id,"ID")
-    playlist = LD.Playlist(id)
+    idList = id.split('/')
+    newID = idList[4]
+    newID= newID[0:newID.index('?')]
+    playlist = LD.Playlist(newID)
     uris = playlist.getRecomend()
   except Exception as e:
       print(e)
