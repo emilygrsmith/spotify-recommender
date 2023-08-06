@@ -1,5 +1,5 @@
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
+
 import csv
 import os
 from dotenv import load_dotenv
@@ -7,7 +7,6 @@ import time
 import json
 import requests
 import pickle
-from spotipy.oauth2 import SpotifyOAuth
 import auth
 load_dotenv()
 
@@ -16,6 +15,7 @@ load_dotenv()
 
 class Playlist:
     def __init__(self, id,auth):
+        print("INIT NEW")
         self._playlistID = id
         self._length = 0
         self._name = ""
@@ -25,10 +25,13 @@ class Playlist:
         self._redirect = 'http://localhost:5000/callback' #CHANGE TO ENV
         self._ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
         #self._client_credentials_manager = SpotifyClientCredentials(client_id=self._PUBLIC_KEY, client_secret=self._SECRET_KEY)
+        
         self.auth = auth
+        
        # self._sp = spotipy.Spotify(client_credentials_manager = self._client_credentials_manager,scope="user-read-private user-read-email",redirect_uri = self._redirect)
-        self._sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=self._PUBLIC_KEY, client_secret=self._SECRET_KEY, redirect_uri=self._redirect, scope="user-read-private user-read-email playlist-modify-private playlist-modify-public"))
-        self._token = self.auth.authorize()
+        
+        self._token = self.auth.authorize() if self.auth.get_auth_token() is  None else self.auth.get_auth_token()
+        self._sp = spotipy.Spotify(self._token)
         self._info = self._loadPlayListInfo()
         self._uri = []
 
@@ -40,7 +43,6 @@ class Playlist:
         self._length = len(info['items'])
         return info
     def _sendRequest(self, request):
-            print("SENDING R")
             response =requests.get(request, 
                 headers={"Content-Type":"application/json", "scope":'user-read-private user-read-email',
                             "Authorization":f"Bearer {self._token}"})

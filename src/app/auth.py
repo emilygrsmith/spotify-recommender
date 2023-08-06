@@ -27,6 +27,7 @@ class Auth:
         self._PUBLIC_KEY = os.getenv('CLIENT_PUBLIC_KEY')
         self._redirect = 'http://localhost:5000/callback'
         self.authorization_code = None
+        self._token = None
      def generateRandomString(self,length):
         text = ""
         possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -45,10 +46,12 @@ class Auth:
         return base64encode(digest)
      def set_authorization_code(self,code):
          self.authorization_code = code
+     def get_auth_token(self):
+        return self._token
      def authorize(self): 
         client_id =  self._PUBLIC_KEY
         redirect_uri = self._redirect
-        scope = 'user-read-private user-read-email'
+        scope = 'user-read-private user-read-email playlist-modify-private playlist-modify-public'
 
         code_verifier = self.generateRandomString(128)
         code_challenge = self.generateCodeChallenge(code_verifier)
@@ -95,6 +98,7 @@ class Auth:
         if response.ok:
             access_token = response.json()['access_token']
             print("Access Token:", access_token)
+            self._token = access_token
             return access_token
         else:
             print("Failed to obtain Access Token:", response.json())
