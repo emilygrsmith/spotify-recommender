@@ -8,27 +8,27 @@ import json
 import requests
 import pickle
 from spotipy.oauth2 import SpotifyOAuth
-
+import auth
 load_dotenv()
 
 
 
 
 class Playlist:
-    def __init__(self, id):
+    def __init__(self, id,auth):
         self._playlistID = id
         self._length = 0
         self._name = ""
         self._playlistInfo = []
         self._PUBLIC_KEY = os.getenv('CLIENT_PUBLIC_KEY')
         self._SECRET_KEY = os.getenv('CLIENT_SECRET_KEY')
-        self._redirect = 'http://127.0.0.1:5001' #CHANGE TO ENV
+        self._redirect = 'http://localhost:5000/callback' #CHANGE TO ENV
         self._ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
         #self._client_credentials_manager = SpotifyClientCredentials(client_id=self._PUBLIC_KEY, client_secret=self._SECRET_KEY)
-        
+        self.auth = auth
        # self._sp = spotipy.Spotify(client_credentials_manager = self._client_credentials_manager,scope="user-read-private user-read-email",redirect_uri = self._redirect)
         self._sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=self._PUBLIC_KEY, client_secret=self._SECRET_KEY, redirect_uri=self._redirect, scope="user-read-private user-read-email playlist-modify-private playlist-modify-public"))
-        self._token = self._acquire_token()
+        self._token = self.auth.authorize()
         self._info = self._loadPlayListInfo()
         self._uri = []
 
@@ -40,7 +40,7 @@ class Playlist:
         self._length = len(info['items'])
         return info
     def _sendRequest(self, request):
-        
+            print("SENDING R")
             response =requests.get(request, 
                 headers={"Content-Type":"application/json", "scope":'user-read-private user-read-email',
                             "Authorization":f"Bearer {self._token}"})
@@ -49,11 +49,11 @@ class Playlist:
     def getRecomend(self,filters = None):
         uris = []
         endpoint_url = "https://api.spotify.com/v1/recommendations?"
-        
         for x in range(self._length):
             
             query = f"{endpoint_url}limit={1}&market=US&seed_tracks={self._info['items'][x]['track']['id']}"
             json_response = self._sendRequest(query)
+            print("GOT DA JSON")
             #print((json_response))
             for i in json_response['tracks']:
                 name = i['name']
